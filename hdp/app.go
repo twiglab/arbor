@@ -2,6 +2,7 @@ package hdp
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"text/template"
@@ -11,47 +12,49 @@ import (
 	"github.com/xen0n/go-workwx/v2"
 )
 
-type HDPApp struct {
-	App *workwx.WorkwxApp
-
-	Store *HDPStore
-
-	Tpl *template.Template
+type AppParam struct {
+	Tags []string `json:"tags"`
 }
 
-func (b *HDPApp) Name() string {
+type App struct {
+	Store *Store
+	App   *workwx.WorkwxApp
+	Tpl   *template.Template
+}
+
+func (b *App) Name() string {
 	return "hdpapp"
 }
 
-func (b *HDPApp) Run(ctx context.Context, req *xxl.RunReq) (fmt.Stringer, error) {
+func (b *App) Run(ctx context.Context, req *xxl.RunReq) (fmt.Stringer, error) {
 
-	/*
-		if err := json.Unmarshal([]byte(req.ExecutorParams), &jp); err != nil {
-			return nil, err
-		}
-	*/
+	var param AppParam
+	if err := json.Unmarshal([]byte(req.ExecutorParams), &param); err != nil {
+		return xxl.JobRtn(err)
+	}
 
-	a, err := b.Store.StoreOutline(ctx)
+	yestoday := Yestoday(time.Now())
+	a, err := b.Store.StoreOutline(ctx, yestoday)
 	if err != nil {
 		return xxl.JobRtn(err)
 	}
 
 	root := map[string]any{
 		"outlines": a,
-		"Date":     time.Now().Add(-1 * 24 * time.Hour),
+		"yestoday": yestoday,
 	}
 
 	var sb strings.Builder
-	sb.Grow(512)
+	sb.Grow(1024)
 	if err = b.Tpl.Execute(&sb, root); err != nil {
-		return nil, err
+		return xxl.JobRtn(err)
 	}
 
-	err = b.App.SendMarkdownMessage(&workwx.Recipient{TagIDs: []string{"1"}}, sb.String(), false)
+	err = b.App.SendMarkdownMessage(&workwx.Recipient{TagIDs: param.Tags}, sb.String(), false)
 
 	return xxl.JobRtn(err)
 }
 
-func (a *HDPApp) OnIncomingMessage(msg *workwx.RxMessage) error {
+func (a *App) OnIncomingMessage(msg *workwx.RxMessage) error {
 	return nil
 }

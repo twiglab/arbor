@@ -16,9 +16,12 @@ group by
   storecode
 `
 
-func yestoday(now time.Time) (begin time.Time, end time.Time) {
-	yestoday := now.Add(-1 * 24 * time.Hour)
+func DayBeginEnd(t time.Time) (begin time.Time, end time.Time) {
+	today := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	next := today.Add(24 * time.Hour)
+	return today, next
+}
 
-	return time.Date(yestoday.Year(), yestoday.Month(), yestoday.Day(), 0, 0, 0, 0, now.Location()),
-		time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+func Yestoday(now time.Time) time.Time {
+	return now.Add(-1 * 24 * time.Hour)
 }

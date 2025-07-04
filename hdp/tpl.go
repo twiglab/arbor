@@ -13,7 +13,7 @@ const msgTpl = `
 `
 
 const msgTpl2 = `
-{{ .Date.Format "2006.01.02" }} {{ .Date | weekday}}
+{{ .yestoday.Format "2006.01.02" }} {{ .yestoday | weekday}}
 {{ range .outlines }}
 >{{ .StoreName }} 上报商户{{ .Num }}个，总单量 {{ .Qry }} 单， 总销售额 {{ .Total }} 元
 {{ end }}
