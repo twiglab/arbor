@@ -6,7 +6,7 @@ require (
 	entgo.io/ent v0.14.4
 	github.com/go-chi/chi/v5 v5.2.2
 	github.com/go-sql-driver/mysql v1.9.3
-	github.com/it512/xxl-job-exec v0.0.0-20250704051938-90bc065bdf4a
+	github.com/it512/xxl-job-exec v0.0.0-20250705064422-2c99bc2b03b8
 	github.com/jackc/pgx/v5 v5.7.5
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
