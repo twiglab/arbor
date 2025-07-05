@@ -34,7 +34,7 @@ func (b *App) Run(ctx context.Context, req *xxl.RunReq) (fmt.Stringer, error) {
 	}
 
 	yestoday := Yestoday(time.Now())
-	a, err := b.Store.StoreOutline(ctx, yestoday)
+	a, err := b.Store.StoreOutline4(ctx, yestoday)
 	if err != nil {
 		return xxl.JobRtn(err)
 	}

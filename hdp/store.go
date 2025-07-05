@@ -2,19 +2,25 @@ package hdp
 
 import (
 	"context"
-	"database/sql"
 	"time"
 
 	"github.com/twiglab/arbor/hdp/ent"
 )
 
-type Outline struct {
+type OutlineItem struct {
 	StoreCode string
 	StoreName string
+	FloorCode string
+	FloorName string
 	Num       int64
 	Qry       float64
 	Total     float64
 	Date      string
+}
+
+type Outline struct {
+	OutlineItem
+	Subs []OutlineItem
 }
 
 type Store struct {
@@ -25,57 +31,55 @@ func NewStore(client *ent.Client) *Store {
 	return &Store{client: client}
 }
 
-func (x *Store) StoreOutline(ctx context.Context, t time.Time) ([]Outline, error) {
+func (x *Store) StoreOutline4(ctx context.Context, t time.Time) ([]*Outline, error) {
 	s, e := DayBeginEnd(t)
 
-	a, err := x.client.QueryContext(ctx, xsql, s, e)
-
+	r1, err := x.client.QueryContext(ctx, xsql, s, e)
 	if err != nil {
 		return nil, err
 	}
-	defer a.Close()
+	defer r1.Close()
 
-	var os []Outline
-	for a.Next() {
-		outline, err := makeOutline(a)
+	var os []*Outline
+	for r1.Next() {
+		var outline Outline
+		err := r1.Scan(
+			&outline.StoreCode, &outline.StoreName,
+			&outline.Num, &outline.Qry, &outline.Total,
+			&outline.Date,
+		)
+
 		if err != nil {
 			return nil, err
 		}
-		os = append(os, outline)
+		os = append(os, &outline)
 	}
 
-	return os, nil
-}
-
-func (x *Store) StoreOutline2(ctx context.Context) ([]Outline, error) {
-	now := Yestoday(time.Now())
-	s, e := DayBeginEnd(now)
-
-	a, err := x.client.QueryContext(ctx, xsql, s, e)
-
+	rows2, err := x.client.QueryContext(ctx, ysql, s, e)
 	if err != nil {
 		return nil, err
 	}
-	defer a.Close()
+	defer rows2.Close()
 
-	var os []Outline
-	for a.Next() {
-		outline, err := makeOutline(a)
+	for rows2.Next() {
+		var oitem OutlineItem
+		err := rows2.Scan(
+			&oitem.StoreCode, &oitem.StoreName,
+			&oitem.FloorCode, &oitem.FloorName,
+			&oitem.Num, &oitem.Qry, &oitem.Total,
+			&oitem.Date,
+		)
+
 		if err != nil {
 			return nil, err
 		}
-		os = append(os, outline)
+
+		for _, i := range os {
+			if i.StoreCode == oitem.StoreCode {
+				i.Subs = append(i.Subs, oitem)
+			}
+		}
 	}
 
 	return os, nil
-}
-
-func makeOutline(row *sql.Rows) (Outline, error) {
-	var outline Outline
-	err := row.Scan(
-		&outline.StoreCode, &outline.StoreName,
-		&outline.Num, &outline.Qry, &outline.Total,
-		&outline.Date,
-	)
-	return outline, err
 }
