@@ -30,8 +30,7 @@ to quickly create a Cobra application.`,
 type XxlJobConf struct {
 	ServerAddr  string `yaml:"server-addr" mapstructure:"server-addr"`
 	AccessToken string `yaml:"access-token" mapstructure:"access-token"`
-	LocalIp     string `yaml:"local-ip" mapstructure:"local-ip"`
-	LocalPort   string `yaml:"local-port" mapstructure:"local-port"`
+	ExecutorURL string `yaml:"executor-url" mapstructure:"executor-url"`
 	RegistryKey string `yaml:"registry-key" mapstructure:"registry-key"`
 }
 
@@ -51,6 +50,7 @@ type AppConf struct {
 	XxlJobConf XxlJobConf `yaml:"xxl" mapstructure:"xxl"`
 	WxAppConf  WxAppConf  `yaml:"wxapp" mapstructure:"wxapp"`
 	DBConf     DBConf     `yaml:"db" mapstructure:"db"`
+	xx         xxl.Options
 }
 
 type WxAppConf struct {
@@ -100,12 +100,10 @@ func buildHandle(conf AppConf, h workwx.RxMessageHandler) http.Handler {
 	return x
 }
 
-func buildLocalExec(conf AppConf) xxl.Executor {
+func buildLocalExec(conf AppConf) *xxl.Executor {
 	exec := xxl.NewExecutor(
 		xxl.ServerAddr(conf.XxlJobConf.ServerAddr),
 		xxl.AccessToken(conf.XxlJobConf.AccessToken),
-		xxl.ExecutorIp(conf.XxlJobConf.LocalIp),
-		xxl.ExecutorPort(conf.XxlJobConf.LocalPort),
 		xxl.RegistryKey(conf.XxlJobConf.RegistryKey),
 	)
 	return exec
@@ -123,9 +121,8 @@ func c() {
 		},
 		XxlJobConf: XxlJobConf{
 			ServerAddr:  "http://127.0.0.1:8080/xxl-job-admin",
+			ExecutorURL: "http://127.0.0.1:10009/",
 			AccessToken: "token",
-			LocalIp:     "127.0.0.1",
-			LocalPort:   "10009",
 			RegistryKey: "puppy",
 		},
 		WxAppConf: WxAppConf{

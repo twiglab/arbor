@@ -3,7 +3,6 @@ package hdp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"strings"
 	"text/template"
 	"time"
@@ -26,17 +25,17 @@ func (b *App) Name() string {
 	return "hdpapp"
 }
 
-func (b *App) Run(ctx context.Context, req *xxl.RunReq) (fmt.Stringer, error) {
+func (b *App) Run(ctx context.Context, task *xxl.Task) error {
 
 	var param AppParam
-	if err := json.Unmarshal([]byte(req.ExecutorParams), &param); err != nil {
-		return xxl.JobRtn(err)
+	if err := json.Unmarshal([]byte(task.Param.ExecutorParams), &param); err != nil {
+		return err
 	}
 
 	yestoday := Yestoday(time.Now())
 	a, err := b.Store.StoreOutline4(ctx, yestoday)
 	if err != nil {
-		return xxl.JobRtn(err)
+		return err
 	}
 
 	root := map[string]any{
@@ -47,12 +46,12 @@ func (b *App) Run(ctx context.Context, req *xxl.RunReq) (fmt.Stringer, error) {
 	var sb strings.Builder
 	sb.Grow(1024)
 	if err = b.Tpl.Execute(&sb, root); err != nil {
-		return xxl.JobRtn(err)
+		return err
 	}
 
 	err = b.App.SendMarkdownMessage(&workwx.Recipient{TagIDs: param.Tags}, sb.String(), false)
 
-	return xxl.JobRtn(err)
+	return err
 }
 
 func (a *App) OnIncomingMessage(msg *workwx.RxMessage) error {

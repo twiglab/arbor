@@ -1,6 +1,7 @@
 package serv
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 	"github.com/it512/xxl-job-exec"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/twiglab/arbor/hdp"
 	"gopkg.in/yaml.v3"
 )
 
@@ -45,6 +47,12 @@ func initConfig() {
 	}
 }
 
+func task(app *hdp.App) xxl.TaskFunc {
+	return func(ctx context.Context, task *xxl.Task) error {
+		return app.Run(ctx, task)
+	}
+}
+
 func printConf(conf AppConf) {
 	enc := yaml.NewEncoder(os.Stdout)
 	enc.SetIndent(2)
@@ -61,14 +69,16 @@ func run() {
 	printConf(conf)
 
 	exec := buildLocalExec(conf)
-	exec.Init()
 
 	app := buildApp(conf)
-	exec.RegJob(app.Name(), app)
+	exec.RegTask(app.Name(), task(app))
+
+	exec.Start()
+	defer exec.Stop()
 
 	mux := chi.NewMux()
 	mux.Use(middleware.Logger, middleware.Recoverer)
-	mux.Mount("/", xxl.Handle(exec))
+	mux.Mount("/xxl-job", exec.Handle())
 
 	if err := http.ListenAndServe(conf.ServerConf.Addr, mux); err != nil {
 		log.Fatal(err)
