@@ -58,8 +58,8 @@ github.com/hashicorp/hcl/v2 v2.23.0 h1:Fphj1/gCylPxHutVSEOf2fBOh1VE4AuLV7+kbJf3q
 github.com/hashicorp/hcl/v2 v2.23.0/go.mod h1:62ZYHrXgPoX8xBnzl8QzbWq4dyDsDtfCRgIq1rbJEvA=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
-github.com/it512/xxl-job-exec v0.0.0-20250712055750-4225d9845ea0 h1:OKp3j5xo71Srlz2TiTLUux2X3VB22rcs2AINzQ76DIs=
-github.com/it512/xxl-job-exec v0.0.0-20250712055750-4225d9845ea0/go.mod h1:7LucAyj1BSN7uMKRdd0N6kkxwR3dDEjJAXMnibGKVeQ=
+github.com/it512/xxl-job-exec v0.0.1 h1:pVByb9Vg0l+DwsKtzpybBxeczFIjU00C4hNJS8NcdoE=
+github.com/it512/xxl-job-exec v0.0.1/go.mod h1:D4up7YdSGJAdEQ0EKYlAPVDVDz5Yf4eRsjHtwftrjUs=
 github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=
 github.com/jackc/pgpassfile v1.0.0/go.mod h1:CEx0iS5ambNFdcRtxPj5JhEz+xB6uRky5eyVu/W2HEg=
 github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 h1:iCEnooe7UlwOQYpKFhBabPMi4aNAfoODPEFNiAnClxo=

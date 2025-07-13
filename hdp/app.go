@@ -2,7 +2,6 @@ package hdp
 
 import (
 	"context"
-	"encoding/json"
 	"strings"
 	"text/template"
 	"time"
@@ -26,9 +25,8 @@ func (b *App) Name() string {
 }
 
 func (b *App) Run(ctx context.Context, task *xxl.Task) error {
-
 	var param AppParam
-	if err := json.Unmarshal([]byte(task.Param.ExecutorParams), &param); err != nil {
+	if err := xxl.TaskJsonParam(task, &param); err != nil {
 		return err
 	}
 
