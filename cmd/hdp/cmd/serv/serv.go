@@ -78,7 +78,7 @@ func run() {
 
 	mux := chi.NewMux()
 	mux.Use(middleware.Logger, middleware.Recoverer)
-	mux.Mount("/xxl-job", exec.Handle("xxl-job"))
+	mux.Mount("/xxl-job", exec.Handle("/xxl-job"))
 
 	if err := http.ListenAndServe(conf.ServerConf.Addr, mux); err != nil {
 		log.Fatal(err)
