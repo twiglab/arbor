@@ -1,6 +1,6 @@
 module github.com/twiglab/arbor
 
-go 1.24.2
+go 1.25.0
 
 require (
 	entgo.io/ent v0.14.5
@@ -10,7 +10,7 @@ require (
 	github.com/jackc/pgx/v5 v5.7.5
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
-	github.com/xen0n/go-workwx/v2 v2.0.0-20250512044836-ae8c900c575c
+	github.com/xen0n/go-workwx/v2 v2.0.0-20250811061244-aa68f31e90bd
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -58,8 +58,9 @@ require (
 	golang.org/x/mod v0.26.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect
-	golang.org/x/text v0.27.0 // indirect
+	golang.org/x/text v0.28.0 // indirect
 	golang.org/x/tools v0.35.0 // indirect
+	golang.org/x/tools/go/packages/packagestest v0.1.1-deprecated // indirect
 )
 
 tool (
