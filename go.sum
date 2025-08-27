@@ -125,6 +125,8 @@ github.com/vektah/gqlparser/v2 v2.5.30 h1:EqLwGAFLIzt1wpx1IPpY67DwUujF1OfzgEyDsL
 github.com/vektah/gqlparser/v2 v2.5.30/go.mod h1:D1/VCZtV3LPnQrcPBeR/q5jkSQIPti0uYCP/RI0gIeo=
 github.com/xen0n/go-workwx/v2 v2.0.0-20250811061244-aa68f31e90bd h1:gUcypRvTtNZwiQAF+DZWdCRlBoavcHeae+m1t9c/ydU=
 github.com/xen0n/go-workwx/v2 v2.0.0-20250811061244-aa68f31e90bd/go.mod h1:1ZAHkaw1nU5RopB0VM5W1Brg40tcSoaAo5kzhhgAZnY=
+github.com/xen0n/go-workwx/v2 v2.0.0-20250820104418-205f9acf2acd h1:pUlHi4fqGERUsAtoSnKkAyayAyKCbidpcf24//V7aT8=
+github.com/xen0n/go-workwx/v2 v2.0.0-20250820104418-205f9acf2acd/go.mod h1:1ZAHkaw1nU5RopB0VM5W1Brg40tcSoaAo5kzhhgAZnY=
 github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 h1:gEOO8jv9F4OT7lGCjxCBTO/36wtF6j2nSip77qHd4x4=
 github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1/go.mod h1:Ohn+xnUBiLI6FVj/9LpzZWtj1/D6lUovWYBkxHVV3aM=
 github.com/zclconf/go-cty v1.14.4 h1:uXXczd9QDGsgu0i/QFR/hzI5NYCHLf6NQw/atrbnhq8=

@@ -10,7 +10,7 @@ require (
 	github.com/jackc/pgx/v5 v5.7.5
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
-	github.com/xen0n/go-workwx/v2 v2.0.0-20250811061244-aa68f31e90bd
+	github.com/xen0n/go-workwx/v2 v2.0.0-20250820104418-205f9acf2acd
 	gopkg.in/yaml.v3 v3.0.1
 )
 
