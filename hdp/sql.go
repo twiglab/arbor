@@ -2,35 +2,20 @@ package hdp
 
 import "time"
 
-const xsql = `
-SELECT
-  storecode, storeName,
-  count(*), sum(qty), sum(productTotal),
-  date_format(beginDate, '%Y-%m-%d')
-FROM
-  cre.m3salesinput
-where
-  beginDate > ? and beginDate < ? and
-  processStartState = 'submitted'
-group by
-  storecode
+const ads_sale_agg_per_day_sql = `
+select store_code, store_name, cnt, qty, total from ads_sale_agg_per_day where dt = ? order by store_code
 `
 
-// -----------------------------------
-const ysql = `
-SELECT
-  storecode, storeName,
-  floorCode,floorName,
-  count(*), sum(qty) as sum, sum(productTotal) as total, date_format(beginDate, '%Y-%m-%d') as date
-FROM
-  cre.m3salesinput
-where
-  beginDate > ? and beginDate < ?
-  and processStartState = 'submitted'
-group by
-  storecode, floorCode
-order by
-  floorCode
+const ads_payment_agg_per_day_sql = `
+select store_code, store_name, qty, total from ads_payment_agg_per_day where dt = ? order by store_code
+`
+
+const ads_fee_agg_per_day_sql = `
+select store_code, store_name, t4 from ads_fee_agg_per_day where dt = ? order by store_code
+`
+
+const g_gm_entry_sql = `
+select store_code, store_name, in_total from g_gm_entry where dt = ? order by store_code
 `
 
 func DayBeginEnd(t time.Time) (begin time.Time, end time.Time) {
@@ -41,4 +26,8 @@ func DayBeginEnd(t time.Time) (begin time.Time, end time.Time) {
 
 func Yestoday(now time.Time) time.Time {
 	return now.Add(-1 * 24 * time.Hour)
+}
+
+func DT(t time.Time) string {
+	return t.Format("20060102")
 }

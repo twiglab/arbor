@@ -21,7 +21,7 @@ type App struct {
 }
 
 func (b *App) Name() string {
-	return "hdpapp"
+	return "boss"
 }
 
 func (b *App) Run(ctx context.Context, task *xxl.Task) error {
@@ -31,25 +31,38 @@ func (b *App) Run(ctx context.Context, task *xxl.Task) error {
 	}
 
 	yestoday := Yestoday(time.Now())
-	a, err := b.Store.StoreOutline4(ctx, yestoday)
+	dt := DT(yestoday)
+
+	payment, err := b.Store.PaymentAgg(dt)
 	if err != nil {
 		return err
 	}
 
-	root := map[string]any{
-		"outlines": a,
-		"yestoday": yestoday,
-	}
-
-	var sb strings.Builder
-	sb.Grow(1024)
-	if err = b.Tpl.Execute(&sb, root); err != nil {
+	fee, err := b.Store.FeeAgg(dt)
+	if err != nil {
 		return err
 	}
 
-	err = b.App.SendMarkdownMessage(&workwx.Recipient{TagIDs: param.Tags}, sb.String(), false)
+	sale, err := b.Store.SaleAgg(dt)
+	if err != nil {
+		return err
+	}
 
-	return err
+	gm, err := b.Store.GmEntry(dt)
+	if err != nil {
+		return err
+	}
+
+	outline := MakeOutline(Yestoday(time.Now()), fee, payment, sale, gm)
+	outline.Others["yyc"] = gm[0]
+
+	var sb strings.Builder
+	sb.Grow(1024)
+	if err = b.Tpl.Execute(&sb, outline); err != nil {
+		return err
+	}
+
+	return b.App.SendMarkdownMessage(&workwx.Recipient{TagIDs: param.Tags}, sb.String(), false)
 }
 
 func (a *App) OnIncomingMessage(msg *workwx.RxMessage) error {
