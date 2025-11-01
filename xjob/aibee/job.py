@@ -1,6 +1,6 @@
 import arrow
 
-from .aibee import traffic_summary
+from .aibee import _traffic_summary
 
 
 async def job(**kwargs):
@@ -15,6 +15,6 @@ async def job(**kwargs):
         ("mall_id", kwargs["mall_id"]),
     ]
 
-    i = await traffic_summary(p)
+    i = await _traffic_summary(p)
 
     print(i)

@@ -17,6 +17,7 @@ dependencies = [
     "aiomysql>=0.3.2",
     "python-dotenv>=1.2.1",
     "pyxxl[dotenv]>=0.4.4",
+    "pyhive>=0.7.0",
 ]
 
 
