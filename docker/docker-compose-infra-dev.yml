@@ -1,0 +1,63 @@
+name: arbor-infra
+
+services:
+  postgres:
+    image: postgres:17.5
+    container_name: arbor-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: arbor
+    ports:
+      - "5432:5432"
+    volumes:
+      - arbor-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - arbor-network
+
+
+  graphql-router:
+    image: ghcr.io/apollographql/router:v2.8.0
+    container_name: arbor-apollo-router
+    environment:
+      - APOLLO_ROUTER_LOG=info
+      - APOLLO_ROUTER_SUPERGRAPH_PATH=/etc/config/supergraph.graphql
+      - APOLLO_ROUTER_CONFIG_PATH=/etc/config/router.yaml
+    volumes:
+      # 挂载 supergraph schema
+      - ./data/apollo/supergraph.graphql:/etc/config/supergraph.graphql:ro
+      # 挂载路由配置文件
+      - ./data/apollo/router.yaml:/etc/config/router.yaml:ro
+    command:
+      - "--config"
+      - "/etc/config/router.yaml"
+      - "--supergraph"
+      - "/etc/config/supergraph.graphql"
+      - "--log"
+      - "info"
+      - "--dev"
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:4000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - arbor-network
+
+
+volumes:
+  arbor-postgres-data:
+
+networks:
+  arbor-network:
+    driver: bridge
+    name: arbor-network
