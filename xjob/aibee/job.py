@@ -20,8 +20,6 @@ async def job(**kwargs) -> str:
 
     in_total = await _traffic_summary(p)
 
-    print(in_total)
-
     await merge_entry(
         store_code=kwargs["store_code"],
         dt=dt,

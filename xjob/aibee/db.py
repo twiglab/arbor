@@ -15,9 +15,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 def make_engine() -> AsyncEngine:
     with open("abg.toml", "rb") as f:
         data = tomllib.load(f)
-        print(data)
         url = data["aibee"]["db"]["url"]
-        print(url)
 
         return create_async_engine(
             url=url,
@@ -44,7 +42,7 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 
 class GmEntry(Base):
-    __tablename__ = "g_gm_entry_bak"
+    __tablename__ = "g_gm_entry"
 
     pk: Mapped[str] = mapped_column(String(64), primary_key=True)
     store_code: Mapped[str] = mapped_column(String(64))
