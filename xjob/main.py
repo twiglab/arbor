@@ -30,7 +30,8 @@ async def abc():
         "token": p["token"],
         "mall_id": p["mall_id"],
     }
-    await aibee.job(**param)
+
+    return await aibee.job(**param)
 
 
 app.run_executor()

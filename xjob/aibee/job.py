@@ -1,20 +1,32 @@
 import arrow
 
 from .aibee import _traffic_summary
+from .db import merge_entry
 
 
-async def job(**kwargs):
-    yestoday = arrow.now().shift(days=-1).format("YYYY-MM-DD")
+async def job(**kwargs) -> str:
+    yestoday = arrow.now().shift(days=-1)
+    t = yestoday.format("YYYY-MM-DD")
+    dt = arrow.now().shift(days=-1).format("YYYYMMDD")
 
     p = [
-        ("startTime", yestoday),
-        ("endTime", yestoday),
+        ("startTime", t),
+        ("endTime", t),
         ("entityType", 70),
         ("interval", "D"),
         ("token", kwargs["token"]),
         ("mall_id", kwargs["mall_id"]),
     ]
 
-    i = await _traffic_summary(p)
+    in_total = await _traffic_summary(p)
 
-    print(i)
+    print(in_total)
+
+    await merge_entry(
+        store_code=kwargs["store_code"],
+        dt=dt,
+        in_total=in_total,
+        store_name=kwargs["store_name"],
+    )
+
+    return "OK"
