@@ -7,7 +7,7 @@ from .db import merge_entry
 async def job(**kwargs) -> str:
     yestoday = arrow.now().shift(days=-1)
     t = yestoday.format("YYYY-MM-DD")
-    dt = arrow.now().shift(days=-1).format("YYYYMMDD")
+    dt = yestoday.format("YYYYMMDD")
 
     p = [
         ("startTime", t),
