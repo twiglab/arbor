@@ -18,6 +18,8 @@ dependencies = [
     "python-dotenv>=1.2.1",
     "pyxxl[dotenv]>=0.4.4",
     "pyhive>=0.7.0",
+    "pydantic-settings>=2.11.0",
+    "pydantic>=2.12.4",
 ]
 
 
@@ -57,4 +59,4 @@ select = [
 quote-style = "double" 
 
 [tool.mypy]
-plugins = ["strawberry.ext.mypy_plugin"]
+plugins = ["strawberry.ext.mypy_plugin", "pydantic.mypy"]
