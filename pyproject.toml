@@ -21,6 +21,7 @@ dependencies = [
     "pydantic-settings>=2.11.0",
     "pydantic>=2.12.4",
     "orjson>=3.11.4",
+    "duckdb>=1.4.1",
 ]
 
 
@@ -28,10 +29,15 @@ dependencies = [
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[[tool.poetry.source]]
+
+[[tool.uv.index]]
 name = "tsinghua"
-url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
-priority = "primary"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+
+[[tool.uv.index]]
+name = "tencent"
+url = "https://mirrors.cloud.tencent.com/pypi/simple/"
+#url = "https://mirrors.tencentyun.com/pypi/simple/" # 内网
 
 [dependency-groups]
 dev = [
