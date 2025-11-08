@@ -1,4 +1,3 @@
-import tomllib
 from datetime import datetime
 
 from sqlalchemy import DateTime, String
@@ -11,20 +10,18 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
+from ..config import settings
+
 
 def make_engine() -> AsyncEngine:
-    with open("abg.toml", "rb") as f:
-        data = tomllib.load(f)
-        url = data["aibee"]["db"]["url"]
-
-        return create_async_engine(
-            url=url,
-            echo=True,
-            pool_size=10,
-            max_overflow=30,
-            pool_recycle=60 * 30,
-            future=True,
-        )
+    return create_async_engine(
+        url=settings.aibee.db.url,
+        pool_size=10,
+        max_overflow=30,
+        pool_recycle=60 * 30,
+        echo=True,
+        future=True,
+    )
 
 
 engine = make_engine()

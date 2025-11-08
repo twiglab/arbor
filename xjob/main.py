@@ -5,10 +5,15 @@ from pyxxl.ctx import g
 
 from xjob import aibee
 
+from .config import settings
+
 config = ExecutorConfig(
-    xxl_admin_baseurl="http://localhost:8080/xxl-job-admin/api/",
-    executor_app_name="xxx",
-    dotenv_path=".env",
+    xxl_admin_baseurl=settings.xxl.baseurl,
+    access_token=settings.xxl.token,
+    executor_app_name=settings.exec.key,
+    executor_listen_host=settings.exec.host,
+    executor_listen_port=settings.exec.port,
+    executor_url=settings.exec.url,
 )
 
 
