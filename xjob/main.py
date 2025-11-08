@@ -4,8 +4,7 @@ from pyxxl import ExecutorConfig, PyxxlRunner
 from pyxxl.ctx import g
 
 from xjob import aibee
-
-from .config import settings
+from xjob.config import settings
 
 config = ExecutorConfig(
     xxl_admin_baseurl=settings.xxl.baseurl,
