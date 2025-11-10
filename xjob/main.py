@@ -1,5 +1,4 @@
-import json
-
+import orjson
 from pyxxl import ExecutorConfig, PyxxlRunner
 from pyxxl.ctx import g
 
@@ -19,14 +18,14 @@ config = ExecutorConfig(
 app = PyxxlRunner(config)
 
 
-@app.register(name="abc")
-async def abc():
+@app.register(name="abg")
+async def abg():
     params_str = g.xxl_run_data.executorParams
 
     if not params_str:
         return "未提供参数"
 
-    p = json.loads(params_str)
+    p = orjson.loads(params_str)
 
     param = {
         "store_code": p["store_code"],
