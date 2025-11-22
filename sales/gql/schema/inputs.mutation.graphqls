@@ -1,8 +1,28 @@
-
 input CreateInput {
   spCode: String!
+  opDay: String!
+  amount: Decimal!
+  qty: Int!
+  salseType: Int!
+  uploadFile: String!
+  src: Int!
+}
+
+input ModifyInput {
+  code: String!
+  amount: Decimal!
+  qty: Int!
+  uploadFile: String!
+}
+
+input ConfirmInput {
+  code: String!
 }
 
 type SalesMutation {
   create(input: CreateInput!): Inputs @goField(forceResolver: true)
+  modify(input: ModifyInput!): Inputs @goField(forceResolver: true)
+  confirm(input: ConfirmInput!): Inputs @goField(forceResolver: true)
+
+  forceModify(input: ModifyInput!): Inputs @goField(forceResolver: true)
 }
