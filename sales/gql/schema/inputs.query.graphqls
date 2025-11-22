@@ -1,0 +1,9 @@
+input LoadInput {
+  spCode: String!
+  opDay: String!
+  salesType: Int!
+}
+
+type SalesQuery {
+  load(input: LoadInput): Inputs @goField(forceResolver: true)
+}

@@ -1,0 +1,26 @@
+scalar Time
+scalar Decimal
+
+directive @goField(
+	forceResolver: Boolean
+	name: String
+	omittable: Boolean
+	type: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+type Inputs {
+  id: ID!
+  code: String!
+  spCode: String!
+  opDay: String!
+  amount: Decimal!
+  qty: Int!
+  salseType: Int!
+  uploadFile: String!
+  src: Int!
+  status: Int!
+}
+
+type Query {
+  SalesQuery: SalesQuery
+}
