@@ -1,0 +1,8 @@
+
+input CreateInput {
+  spCode: String!
+}
+
+type SalesMutation {
+  create(input: CreateInput!): Inputs @goField(forceResolver: true)
+}

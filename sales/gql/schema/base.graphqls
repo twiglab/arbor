@@ -24,3 +24,7 @@ type Inputs {
 type Query {
   SalesQuery: SalesQuery
 }
+
+type Mutation {
+  SalesMutation: SalesMutation
+}

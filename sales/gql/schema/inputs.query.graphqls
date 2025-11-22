@@ -4,6 +4,15 @@ input LoadInput {
   salesType: Int!
 }
 
+input FindInput {
+  spCode: String!
+  opDayStart: String!
+  opDayEnd: String!
+  salesTypeList: [Int!]!
+  statusList: [Int!]!
+}
+
 type SalesQuery {
-  load(input: LoadInput): Inputs @goField(forceResolver: true)
+  load(input: LoadInput!): Inputs @goField(forceResolver: true)
+  find(input: FindInput!): [Inputs!] @goField(forceResolver: true)
 }
